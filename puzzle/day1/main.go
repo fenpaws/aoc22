@@ -3,21 +3,23 @@ package day1
 import (
 	"github.com/fenpaws/aoc22/helper"
 	"log"
+	"sort"
 	"strconv"
 )
 
 func Run() {
 	log.Print("AOC 22 - Day1")
-	content, err := helper.LoadPuzzleLineByLine("puzzle/day1/puzzle_test.txt")
+	raw, err := helper.LoadPuzzleLineByLine("puzzle/day1/puzzle.txt")
 	if err != nil {
 		log.Print(err)
 	}
 	//log.Printf("Raw content of Puzzle (calories): %s", content)
-	perElfCalories := addElfCalories(content)
+	perElfCalories := addElfCalories(raw)
 	log.Printf("Combines calories per Elf: %v", perElfCalories)
-	mostCalories := elfWithTheMostCalories(perElfCalories)
-	log.Printf("Max calories: %v", mostCalories)
-
+	elfWithTheMostCalories := elfWithTheMostCalories(perElfCalories)
+	log.Printf("Max calories: %v", elfWithTheMostCalories)
+	mostCalories := threeElfWithTheMostCalories(perElfCalories)
+	log.Printf("Max calories with three Elf: %v", mostCalories)
 }
 
 func addElfCalories(calories []string) []int {
@@ -48,4 +50,9 @@ func elfWithTheMostCalories(calories []int) int {
 		}
 	}
 	return tmpCalories
+}
+
+func threeElfWithTheMostCalories(calories []int) int {
+	sort.Ints(calories)
+	return calories[len(calories)-1] + calories[len(calories)-2] + calories[len(calories)-3]
 }
